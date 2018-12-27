@@ -1,0 +1,524 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+<title>AI卡证识别</title>
+<meta name="Keywords" content="识别身份证,身份识别"></meta>
+<meta name="description"
+	content="卡证识别，基于业界领先的深度学习技术，提供对二代居民身份证、银行卡、机动车驾驶证、机动车行驶证的识别服务，应用于金融、保险、电商、交通等，提高效率提升体验。百度AI开放平台"></meta>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.demo {
+	margin-bottom: -60px;
+	text-align: center;
+}
+
+.demo .d-container {
+	display: block;
+	width: 1180px;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
+}
+
+.demo .d-container .d-title {
+	padding-top: 80px;
+	font-size: 30px;
+	line-height: 30px;
+	letter-spacing: 2px;
+}
+
+.demo .d-container .d-data {
+	height: 38px;
+	font-size: 0;
+	margin-top: 30px;
+}
+
+.d-data d-url {
+	font-size: 13px;
+	color: #0073ed;
+	cursor: pointer;
+}
+
+.d-data .d-curl {
+	display: inline-block;
+	vertical-align: top;
+	height: 36px;
+	line-height: 36px;
+	border: 1px solid #ebebeb;
+	padding: 0 11px;
+	width: 318px;
+	color: #333;
+}
+
+.d-data .btn-primary {
+	line-height: 36px;
+	width: 100px;
+	height: 36px;
+	box-shadow: none;
+	border: 1px solid #0073eb;
+	background-color: #0073eb;
+	color: #fff !important;
+}
+
+.d-data span {
+	margin: 0 10px;
+	display: inline-block;
+	line-height: 38px;
+	font-size: 13px;
+	color: #999;
+}
+
+.d-data label {
+	font-size: 13px;
+	color: #0073ed;
+	cursor: pointer;
+}
+
+.d-data input[type=file] {
+	display: none;
+}
+
+.d-desc {
+	font-size: 14px;
+	line-height: 14px;
+	color: #999;
+	margin: 20px 0 23px;
+}
+
+.d-view {
+	height: 300px;
+	width: 570px;
+	float: left;
+	margin: 10px;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.d-float .d-view[data-label] {
+	color: #666;
+	background-color: #fafafa;
+	border: 1px solid #ebebeb;
+	overflow: hidden;
+	padding-right: 0;
+}
+
+.d-view[data-label]:after {
+	content: attr(data-label);
+	display: inline-block;
+	border: 1px solid #cce3fb;
+	background-color: #e6fafd;
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	padding: 0 15px;
+	line-height: 30px;
+	z-index: 9;
+}
+
+.d-float .d-result[data-label] {
+	background-color: #fafafa;
+	border: 1px solid #ebebeb;
+	overflow: hidden;
+	padding-right: 0;
+}
+
+.d-result {
+	height: 300px;
+	width: 570px;
+	float: left;
+	margin: 10px;
+	position: relative;
+	box-sizing: border-box;
+	background: url(images/id-1.jpg) no-repeat;
+	background-position: 50%;
+	background-position-x: center;
+	background-position-y: center;
+	background-size: 453px 282px;
+}
+
+.d-background {
+	height: 100%;
+	width: 100%;
+	padding: 40px 30px;
+	box-sizing: border-box;
+	overflow: auto;
+	text-align: left;
+}
+
+.d-result[data-label]:after {
+	content: attr(data-label);
+	display: inline-block;
+	border: 1px solid #cce3fb;
+	background-color: #e6fafd;
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	padding: 0 15px;
+	line-height: 30px;
+	z-index: 9;
+}
+
+.data-view {
+	height: 300px;
+	width: 570px;
+	float: left;
+	margin: 10px;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.d-lilst {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-left: 1px solid #ebebeb;
+	border-top: 1px solid #ebebeb;
+	display: block;
+	list-style-type: disc;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	padding-inline-start: 40px;
+}
+
+.d-list>li {
+	position: relative;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 33.33333%;
+	height: 124px;
+	text-align: center;
+	vertical-align: middle;
+	float: left;
+	background-color: #fafafa;
+	padding: 10px;
+	cursor: pointer;
+	border-right: 1px solid #ebebeb;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.d-list>li>img {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+
+.d-list>li.active:after,.d-list>li:hover:after {
+	content: "";
+	display: inline-block;
+	border: 2px solid #7fb9f5;
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	box-sizing: border-box;
+	z-index: 9;
+}
+
+.d-json {
+	height: 300px;
+	width: 570px;
+	float: left;
+	margin: 10px;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.d-json:last-child {
+	height: 249px;
+	text-align: left;
+}
+
+.d-json[data-label] {
+	color: #666;
+	background-color: #fafafa;
+	border: 1px solid #ebebeb;
+	overflow: hidden;
+	padding-right: 0;
+}
+
+.d-json p {
+	display: block;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	white-space: pre-wrap;
+	padding: 40px 30px;
+	margin: 0;
+	overflow: auto;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.d-json[data-label]:after {
+	content: attr(data-label);
+	display: inline-block;
+	border: 1px solid #cce3fb;
+	background-color: #e6fafd;
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	padding: 0 15px;
+	line-height: 30px;
+	z-index: 9;
+}
+
+.d-background span {
+	position: absolute;
+	font-size: 15px;
+	color: #333;
+}
+
+.d-background #name {
+	top: 46px;
+	left: 140px;
+}
+
+.d-background #sex {
+	top: 81px;
+	left: 140px;
+}
+
+.d-background #nation {
+	top: 81px;
+	left: 240px;
+}
+
+.d-background #year {
+	top: 115px;
+	left: 141px;
+}
+
+.d-background #month {
+	top: 115px;
+	left: 212px;
+}
+
+.d-background #day {
+	top: 115px;
+	left: 255px;
+}
+
+.d-background #addr {
+	top: 152px;
+	left: 140px;
+}
+
+.d-background #num {
+	top: 240px;
+	left: 208px;
+	font-size: 17px;
+}
+</style>
+
+</head>
+<body>
+	<div class="demo" id="d-idcard">
+		<div class="d-container">
+			<div class="d-title">身份证识别功能演示</div>
+			<div class="d-data">
+				<label for="d-url" style="display: none"></label> <input type="text"
+					id="d-url" class="d-curl" placeholder="请输入网络图片URL" />
+				<button type="button" class="btn-primary" id="scan-photo-idcard" onclick="check()">检测</button>
+				<span>或</span> <label id="d-upload"><input type="file" accept="image/*">本地上传</label>
+			</div>
+			<p class="d-desc">提示：可支持PNG、JPG、JPEG、BMP，图片大小不超过4M，长边不大于4096像素，请保证需要识别的部分为图片主体部分
+			</p>
+			<div class="d-float">
+				<div class="d-view" data-label="原始图片" id="demo-origin-idcard">
+					<canvas id="d-canvas" width="453" height="282" data-scale="1"
+						style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(1);">您的浏览器暂时不支持canvas，请选用现代浏览器！</canvas>
+				</div>
+				<div class="d-result" data-label="识别结果" id="demo-result-idcard">
+					<div class="d-background">
+						<span id="name"></span> <span id="sex"></span> <span id="nation"></span>
+						<span id="year"></span> <span id="month"></span> <span id="day"></span>
+						<span id="addr"></span> <span id="num"></span>
+					</div>
+				</div>
+				<div class="data-view">
+					<ul class="d-list">
+						<li><img src="images/demo-card-1.png"></li>
+						<li><img src="images/demo-card-2.png"></li>
+						<li><img src="images/demo-card-3.png"></li>
+						<li><img src="images/demo-card-4.png"></li>
+						<li><img src="images/demo-card-5.png"></li>
+						<li><img src="images/demo-card-6.png"></li>
+					</ul>
+				</div>
+				<div class="d-json" data-label="RESPONSE JSON" id="demo-json-idcard">
+					<p></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<!--引入jQuery官方类库-->
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			init();
+		})
+		
+		//初始化方法
+		function init(){
+			var c = document.getElementById("d-canvas");
+			var ctx = c.getContext("2d");
+			//默认第一个li样式active
+			$("li:first").attr("class","active");
+			//初始化默认选中第一个
+			var first = $("li img");
+			var img = first[0];//[object HTMLImageElement]
+			ctx.drawImage(img, 0, 0);
+			var path = $(img).attr("src");
+			query("data.jsp",path);
+		}
+			
+			
+	
+		
+
+		
+		
+		//点击图片事件
+		$("li").click(function() {
+			
+			//先清除之前的li的active样式
+			$(".active").attr("class","");
+			//再设置当前li为active样式
+			$(this).attr("class","active");
+			var c = document.getElementById("d-canvas");
+			var ctx = c.getContext("2d");
+			var img = this.children[0];//element.children	返回元素的子元素的集合; 子元素类型[object HTMLImageElement]
+			ctx.drawImage(img, 0, 0);
+			var path = $(this).find("img").attr("src");
+			query("data.jsp",path);
+
+		});
+
+		
+
+		//本地上传
+		$(":file").change(function() {
+			var c = document.getElementById("d-canvas");
+			var ctx = c.getContext("2d");
+			var file = this.files[0];
+			//FileReader 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 File 或 Blob 对象指定要读取的文件或数据。
+			var reader = new FileReader(); 
+			//将文件以Data URL形式读入页面
+		    reader.readAsDataURL(file);
+			reader.onload = function(){
+				var img = new Image(); // 创建img元素
+				
+				img.onload = function() {//图片加载完，再draw
+					ctx.drawImage(img, 0, 0,img.width, img.height);
+				}
+				img.setAttribute('crossOrigin', 'anonymous');//大图片的压缩处理
+				img.src = reader.result;
+				query("data3.jsp",img.src);
+			
+			};
+			
+			//读文件
+	     
+			//alert(c.toDataURL());//此为新图片未覆盖之前的地址，需要重新调用新图片的对象
+			//var cnew = document.getElementById("d-canvas");
+			//alert(cnew.toDataURL());//此为新图片
+			//query("data3.jsp",cnew.toDataURL());
+
+		});
+		
+		//查询身份证信息
+		function query(url,path) {
+			$.ajax({
+				type : "post",
+				url : url,
+				data : {
+					"path" : path
+				},
+				success : function(data) {
+					var result = $.parseJSON(data);
+					var name = (result.words_result.姓名.words);
+					var sex = (result.words_result.性别.words);
+					var nation = (result.words_result.民族.words);
+					var addr = (result.words_result.住址.words);
+					var num = (result.words_result.公民身份号码.words);
+
+					var year = (result.words_result.出生.words).substring(0, 4);
+					var month = (result.words_result.出生.words).substring(4, 6);
+					var day = (result.words_result.出生.words).substring(6);
+
+					$("#name").text(name);
+					$("#sex").text(sex);
+					$("#nation").text(nation);
+					$("#year").text(year);
+					$("#month").text(month);
+					$("#day").text(day);
+					$("#addr").text(addr);
+					$("#num").text(num);
+					$(".d-json p").html(data);
+				}
+
+			});
+		}
+		
+		
+		//检测
+		function check(){
+			//获取输入的网页图片地址
+			var imgUrl = $("#d-url").val();
+			var image = new Image();
+			image.src = imgUrl;
+			//解决Uncaught DOMException: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.跨域问题
+			image.setAttribute("crossOrigin",'Anonymous');
+			image.onload = function(){
+			  var base64 = getBase64Image(image);
+			  query("data3.jsp",base64);
+			}
+		}
+		
+		//将图片转换为base64字符串
+		function getBase64Image(img) {
+		    //var canvas = document.createElement("canvas");
+		    var canvas = document.getElementById("d-canvas");
+		    canvas.width = img.width;
+		    canvas.height = img.height;
+		    var ctx = canvas.getContext("2d");
+		    ctx.drawImage(img, 0, 0, img.width, img.height);
+		    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();//获取图片后缀
+		    var dataURL = canvas.toDataURL("image/"+ext);
+		    return dataURL;
+		}
+		
+		
+		//URL.createObjectURL()方法会根据传入的参数创建一个指向该参数对象的URL，这个URL的生命仅存在于它被创建的这个文档里，新的对象URL指向执行的File对象或Blob对象。
+		//该方法可用FileReader替换
+		function getObjectURL(file) {
+			var url = null;
+			if (window.createObjcectURL != undefined) {
+				url = window.createOjcectURL(file);
+			} else if (window.URL != undefined) {
+				url = window.URL.createObjectURL(file);
+			} else if (window.webkitURL != undefined) {
+				url = window.webkitURL.createObjectURL(file);
+			}
+			return url;
+		}
+		
+
+	</script>
+</body>
+</html>

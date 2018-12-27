@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>	
+		<title>AI卡证识别</title>
+		<meta name="Keywords" content="识别身份证,身份识别"></meta>	
+		<meta name="description" content="卡证识别，基于业界领先的深度学习技术，提供对二代居民身份证、银行卡、机动车驾驶证、机动车行驶证的识别服务，应用于金融、保险、电商、交通等，提高效率提升体验。百度AI开放平台"></meta>	
+		<style type="text/css">
+			*{margin:0;padding:0;}
+			
+			
+			/*S top*/
+			.top{width:100%;height:60px;background-color:#000;}
+			.top .t-cover{position: relative;width:1200px;margin: 0 auto;font-size: 0;}
+			.top .t-cover .t-logo{width:173px;height:60px;margin: 0 100px 0 10px;background:url("images/logo.png");background-position-y: 13px;background-size: contain;background-repeat: no-repeat;}
+			/*E top*/
+			
+			
+			
+			/*S tab*/
+			.tab{position: relative;background: #f4f5f7;}
+			.tab .t-container{display: block;width: 1365px;height: 100%; margin: 0 auto;position: relative;overflow: hidden;}
+			.tab .t-container .t-detail{height: 400px;padding: 75px 0 0 210px;box-sizing: border-box;background: url(images/intro-bg.png) no-repeat top;background-size: cover;}
+			.tab .t-container .t-detail .t-card{position:relative;display: inline-block;vertical-align: top;overflow: hidden; }
+			.tab .t-container .t-detail .t-card .t-scan{width:100%;height:100%;background:url("images/intro.png");position:absolute;background-size:cover;}
+			.tab .t-container .t-detail .t-arrow{display: inline-block;vertical-align: top; width: 50px;height: 250px;margin: 0 50px; background: url(images/tech-idcard-arrow.png) 50% no-repeat;background-size: contain;}
+			.tab .t-container .t-detail .t-result{position:relative;display: inline-block;margin-top: 10px;width: 400px;height: 250px;background: url(images/id-1.jpg) no-repeat;background-size: contain;border-radius: 21px;}
+    		.tab .t-container .t-detail span{position:absolute;font-size:14px;color: #333;}	
+    		.tab .t-container .t-detail #name{top:33px;left:68px;}	
+			.tab .t-container .t-detail #sex{top:63px;left:76px;}	
+			.tab .t-container .t-detail #nation{top:63px;left:158px;}	
+			.tab .t-container .t-detail #year{top:94px;left:72px;}	
+			.tab .t-container .t-detail #month{top:94px;left:135px;}	
+			.tab .t-container .t-detail #day{top:94px;left:170px;}	
+			.tab .t-container .t-detail #addr{top:126px;left:70px;}	
+			.tab .t-container .t-detail #num{top:206px;left:131px;}	
+   
+    
+    
+   
+			/*E tab*/
+			
+		</style>
+	
+	</head>
+	<body>
+		<!--S top-->
+		<div class="top">
+			<div class="t-cover">
+					<div class="t-logo"></div>
+			</div>
+		</div>	
+		<!--E top-->
+		
+		
+		<!--S tab-->	
+		
+    <div class="tab">
+        <div class="t-container">
+            
+            <div class="t-detail">
+                <div class="t-card">
+                	<img id="t-img" alt="身份证" src="images/id.png" width="400px" height="250px">
+                	<div class="t-scan"></div>
+                </div>
+                <div class="t-arrow"></div>
+                <div class="t-result">
+                	<span id="name"></span>
+					<span id="sex"></span>
+					<span id="nation"></span>
+					<span id="year"></span>
+					<span id="month"></span>
+					<span id="day"></span>
+					<span id="addr"></span>
+					<span id="num"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+		<!--E tab-->
+		
+		
+		<!--引入jQuery官方类库-->
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				<!--初始化扫一扫-->	
+				scan();
+				
+				
+			})
+			
+			// 请求服务器识别身份证
+	function query(){
+				var path = $("#t-img").attr("src");
+				$.ajax({
+					type : "post",
+					url : "data.jsp",
+					data : {
+						"path" : path
+					},
+					success : function(data) {
+						var result = $.parseJSON(data);
+						var name = (result.words_result.姓名.words);
+						var sex = (result.words_result.性别.words);
+						var nation = (result.words_result.民族.words);
+						var addr = (result.words_result.住址.words);
+						var num = (result.words_result.公民身份号码.words);
+
+						var year = (result.words_result.出生.words).substring(0, 4);
+						var month = (result.words_result.出生.words).substring(4, 6);
+						var day = (result.words_result.出生.words).substring(6);
+
+						$("#name").text(name);
+						$("#sex").text(sex);
+						$("#nation").text(nation);
+						$("#year").text(year);
+						$("#month").text(month);
+						$("#day").text(day);
+						$("#addr").text(addr);
+						$("#num").text(num);
+
+					}
+
+				});
+	
+	}
+
+			
+			function scan(){
+					var card=$(".t-card");
+					$(".t-scan").css({"bottom":card.height()}).animate({top:card.height()},2000,function(){
+						query();
+					});
+			}
+		</script>
+	</body>	
+</html>
